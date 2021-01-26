@@ -7,6 +7,9 @@ from hostbot import keep_alive
 from itertools import cycle
 from discord.ext import commands, tasks
 from dotenv import load_dotenv
+import requests
+import math
+import random
 
 load_dotenv()
 TOKEN=os.getenv('DISCORD_TOKEN')
@@ -167,7 +170,7 @@ async def server(ctx):
 
 #reddit memes
 
-reddit = praw.Reddit(client_id = "_xC37StY7xVaAg",client_secret = "JB234Ne6j693SXd3LJYuJLbtX4CraA",username = "Luffy-bot",password = "8383028152",user_agent = "Luffybot")
+reddit = praw.Reddit(client_id = "_xC37StY7xVaAg",client_secret = os.getenv('R_CLIENTSECRET'),username = os.getenv('R_USERNAME'),password = os.getenv('R_PASSWORD'),user_agent = "Luffybot")
 
 @client.command(pass_context=True)
 async def meme(ctx,subred = 'memes'):
@@ -195,10 +198,61 @@ async def meme(ctx,subred = 'memes'):
 #jokes
 @client.command()
 async def joke(ctx):
-
+    
     await ctx.send(pyjokes.get_joke())
 
+@client.command()
+async def wp(ctx,keyword='anime'):
+       
+        response = requests.get('https://wallhaven.cc/api/v1/search?q='+keyword +'&purity=100&apikey='+os.getenv('WALL_API'))
+        json1=response.json()
+        print(json1)
+        index=math.floor(random.random() * len(json1['data']))
+        channel = client.get_channel(778649939764576338)
+        try:
+            await channel.send(json1['data'][index]["path"])
+        except:
+            response = requests.get('https://wallhaven.cc/api/v1/search?q=anime' +'&purity=100&apikey='+os.getenv('WALL_API'))
+            json1=response.json()
+            index=math.floor(random.random() * len(json1['data']))
+            channel = client.get_channel(778649939764576338)
+            await channel.send(json1['data'][index]["path"])
+            #await ctx.send(json1['data'][index]["path"])
+
+@client.command()
+async def sx(ctx,keyword='nude'):
+       
+        response = requests.get('https://wallhaven.cc/api/v1/search?q='+keyword +'&purity=111&apikey='+os.getenv('WALL_API'))
+        json1=response.json()
+        print(json1)
+        index=math.floor(random.random() * len(json1['data']))
+        channel = client.get_channel(803603760953294889)
+        try:
+            await channel.send(json1['data'][index]["path"])
+        except:
+            response = requests.get('https://wallhaven.cc/api/v1/search?q=nude' +'&purity=111&apikey='+os.getenv('WALL_API'))
+            json1=response.json()
+            index=math.floor(random.random() * len(json1['data']))
+            channel = client.get_channel(803603760953294889)
+            await channel.send(json1['data'][index]["path"])
+            #await ctx.send(json1['data'][index]["path"])
+
+@client.command()
+async def gif(ctx,keyword='code'):
+       
+        response = requests.get('https://api.tenor.com/v1/search?q='+keyword+'&key='+os.getenv('TENOR')+'&limit=8')
+        json1=response.json()
+        print(json1)
+        index=math.floor(random.random() * len(json1['results']))
+        try:
+            await ctx.channel.send(json1['results'][index]["url"])
+        except:
+            response = requests.get('https://api.tenor.com/v1/search?q=code&key='+os.getenv('TENOR')+'&limit=8')
+            json1=response.json()
+            index=math.floor(random.random() * len(json1['results']))
+            await ctx.channel.send(json1['results'][index]["url"])          
 keep_alive()
+
 
 #put your token here
 
