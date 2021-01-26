@@ -7,16 +7,22 @@ from hostbot import keep_alive
 from itertools import cycle
 from discord.ext import commands, tasks
 from dotenv import load_dotenv
+<<<<<<< HEAD
 import requests
 import math
 import random
+=======
+import pyjokes
+import datetime
+>>>>>>> 4b24a817ec8c9030d4d0b85abf08cdfdc65a7a77
 
 load_dotenv()
 TOKEN=os.getenv('DISCORD_TOKEN')
 
-import pyjokes
+intents = discord.Intents.default()
+intents.members = True
 #used prefix
-client = commands.Bot(command_prefix=".")
+client = commands.Bot(command_prefix=".",intents=intents)
 
 #cycle bot statuses
 status = cycle(['Coded By: Luffyguy', '.help', " with Luffyguy"])
@@ -96,7 +102,8 @@ async def botcommands(ctx):
         title = 'Commands',
         description = 'Prefix : .',
         
-        colour = discord.Colour.red()
+        colour = discord.Colour.red(),
+        timestamp=datetime.datetime.utcfromtimestamp(1611660157)
     )
 
     embed.set_footer(text='by Luffyguy')
@@ -122,7 +129,9 @@ async def help(ctx):
     author = ctx.message.author
 
     embed = discord.Embed(
-        colour = discord.Colour.green()
+        colour = discord.Colour.green(),
+        timestamp=datetime.datetime.utcfromtimestamp(1611660157)
+
     )
     
     
@@ -199,7 +208,7 @@ async def meme(ctx,subred = 'memes'):
 @client.command()
 async def joke(ctx):
     
-    await ctx.send(pyjokes.get_joke())
+    await ctx.send(pyjokes.get_joke())  
 
 @client.command()
 async def wp(ctx,keyword='anime'):
@@ -237,6 +246,7 @@ async def sx(ctx,keyword='nude'):
             await channel.send(json1['data'][index]["path"])
             #await ctx.send(json1['data'][index]["path"])
 
+#fetch gif 
 @client.command()
 async def gif(ctx,keyword='code'):
        
@@ -250,7 +260,31 @@ async def gif(ctx,keyword='code'):
             response = requests.get('https://api.tenor.com/v1/search?q=code&key='+os.getenv('TENOR')+'&limit=8')
             json1=response.json()
             index=math.floor(random.random() * len(json1['results']))
-            await ctx.channel.send(json1['results'][index]["url"])          
+            await ctx.channel.send(json1['results'][index]["url"])   
+                   
+#welcome message
+@client.event
+async def on_member_join(member):
+    guild =client.get_guild(777598102882091018)
+    channel = guild.get_channel(778645688929615902)
+
+    embed = discord.Embed(
+        title = 'Welcome',
+        description = (f'Welcome to the {guild.name } server , {member.mention}!:partying_face: \n You are the {len(list(member.guild.members))} member ! '),
+        colour = discord.Colour.green(),
+        timestamp=datetime.datetime.utcfromtimestamp(1611660157)
+
+    )
+    embed.set_footer(text='by Luffyguy')
+    embed.set_image(url='https://media.giphy.com/media/8aSSX6v0OwcDsHYnZ7/giphy.gif')
+    embed.set_thumbnail(url=f'{member.avatar_url}')
+    embed.set_author(name= "HellHole",
+    icon_url=f'{member.guild.icon_url}')
+    
+    await channel.send(embed=embed)
+    await member.send(embed=embed)
+   
+
 keep_alive()
 
 
