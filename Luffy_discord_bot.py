@@ -7,14 +7,11 @@ from hostbot import keep_alive
 from itertools import cycle
 from discord.ext import commands, tasks
 from dotenv import load_dotenv
-<<<<<<< HEAD
 import requests
 import math
 import random
-=======
 import pyjokes
 import datetime
->>>>>>> 4b24a817ec8c9030d4d0b85abf08cdfdc65a7a77
 
 load_dotenv()
 TOKEN=os.getenv('DISCORD_TOKEN')
