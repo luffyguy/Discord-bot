@@ -7,6 +7,7 @@ from hostbot import keep_alive
 from itertools import cycle
 from discord.ext import commands, tasks
 from dotenv import load_dotenv
+from discord.utils import get
 import requests
 import math
 import random
@@ -199,10 +200,7 @@ async def meme(ctx,subred = 'memes'):
 #jokes
 @client.command()
 async def joke(ctx):
-    await ctx.send(pyjokes.get_joke())
-
-    
-    await ctx.send(pyjokes.get_joke())  
+    await ctx.send(pyjokes.get_joke()) 
 
 #fetch wallpapers from wallhaven.cc
 @client.command()
@@ -222,10 +220,15 @@ async def wp(ctx,keyword='anime'):
             channel = client.get_channel(778649939764576338)
             await channel.send(json1['data'][index]["path"])
             #await ctx.send(json1['data'][index]["path"])
+        finally:
+            auth = ctx.author
+            channel = client.get_channel(778649939764576338)
+            await channel.send(f'here {auth.mention}')
 
 #fetch nsfw wallpapers from wallhaven.cc
 @client.command()
-async def sx(ctx,keyword='nude'):       
+async def sx(ctx,keyword='nude'):  
+ 
         response = requests.get('https://wallhaven.cc/api/v1/search?q='+keyword +'&purity=111&apikey='+os.getenv('WALL_API'))
         json1=response.json()
         print(json1)
@@ -240,11 +243,15 @@ async def sx(ctx,keyword='nude'):
             channel = client.get_channel(803603760953294889)
             await channel.send(json1['data'][index]["path"])
             #await ctx.send(json1['data'][index]["path"])
+        #finally:
+            #auth = ctx.author
+            #channel = client.get_channel(803603760953294889)
+            #await channel.send(f'here {auth.mention}')
 
 #fetch gif 
 @client.command()
 async def gif(ctx,keyword='code'):
-       
+
         response = requests.get('https://api.tenor.com/v1/search?q='+keyword+'&key='+os.getenv('TENOR')+'&limit=8')
         json1=response.json()
         print(json1)
@@ -278,7 +285,6 @@ async def on_member_join(member):
     await channel.send(embed=embed)
     await member.send(embed=embed)
    
-
 keep_alive()
 
 client.run(TOKEN)
