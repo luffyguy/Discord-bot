@@ -7,13 +7,16 @@ from hostbot import keep_alive
 from itertools import cycle
 from discord.ext import commands, tasks
 from dotenv import load_dotenv
+import pyjokes
+import datetime
 
 load_dotenv()
 TOKEN=os.getenv('DISCORD_TOKEN')
 
-import pyjokes
+intents = discord.Intents.default()
+intents.members = True
 #used prefix
-client = commands.Bot(command_prefix=".")
+client = commands.Bot(command_prefix=".",intents=intents)
 
 #cycle bot statuses
 status = cycle(['Coded By: Luffyguy', '.help', " with Luffyguy"])
@@ -93,7 +96,8 @@ async def botcommands(ctx):
         title = 'Commands',
         description = 'Prefix : .',
         
-        colour = discord.Colour.red()
+        colour = discord.Colour.red(),
+        timestamp=datetime.datetime.utcfromtimestamp(1611660157)
     )
 
     embed.set_footer(text='by Luffyguy')
@@ -119,7 +123,9 @@ async def help(ctx):
     author = ctx.message.author
 
     embed = discord.Embed(
-        colour = discord.Colour.green()
+        colour = discord.Colour.green(),
+        timestamp=datetime.datetime.utcfromtimestamp(1611660157)
+
     )
     
     
@@ -197,6 +203,29 @@ async def meme(ctx,subred = 'memes'):
 async def joke(ctx):
 
     await ctx.send(pyjokes.get_joke())
+
+#welcome message
+@client.event
+async def on_member_join(member):
+    guild =client.get_guild(777598102882091018)
+    channel = guild.get_channel(778645688929615902)
+
+    embed = discord.Embed(
+        title = 'Welcome',
+        description = (f'Welcome to the {guild.name } server , {member.mention}!:partying_face: \n You are the {len(list(member.guild.members))} member ! '),
+        colour = discord.Colour.green(),
+        timestamp=datetime.datetime.utcfromtimestamp(1611660157)
+
+    )
+    embed.set_footer(text='by Luffyguy')
+    embed.set_image(url='https://media.giphy.com/media/8aSSX6v0OwcDsHYnZ7/giphy.gif')
+    embed.set_thumbnail(url=f'{member.avatar_url}')
+    embed.set_author(name= "HellHole",
+    icon_url=f'{member.guild.icon_url}')
+    
+    await channel.send(embed=embed)
+    await member.send(embed=embed)
+   
 
 keep_alive()
 
