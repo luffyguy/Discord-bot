@@ -37,8 +37,8 @@ async def change_status():
 
 #says hi
 @client.command()
-async def hello(ctx):
-    await ctx.send("Hi")
+async def hi(ctx):
+    await ctx.send("Hello")
 
 #just laughs
 @client.command()
@@ -91,30 +91,29 @@ async def clear(ctx,amount=1):#algorithm channel id          #project channel id
 
 #botcommands(embed)
 @client.command()
-async def botcommands(ctx):
+async def bc(ctx):
     embed = discord.Embed(
         title = 'Commands',
-        description = 'Prefix : .',
+        description = '```\nPrefix : .```',
         
-        colour = discord.Colour.red(),
-        timestamp=datetime.datetime.utcfromtimestamp(1611660157)
+        colour = discord.Colour.red()
     )
-
     embed.set_footer(text='by Luffyguy')
     embed.set_image(url='https://media.giphy.com/media/8aSSX6v0OwcDsHYnZ7/giphy.gif')
     embed.set_thumbnail(url='https://media.giphy.com/media/oaqHoQWu1Bk9FB5wsv/giphy.gif')
     embed.set_author(name= "Luffy Bot",
     icon_url='https://imgur.com/f1nKCsD.png')
-    embed.add_field(name= '- Add : ', value= '.add <number1> <number2>', inline=False)
-    embed.add_field(name= '- Differnce : ', value= '.diff <number1> <number2>', inline=True)
-    embed.add_field(name= '- Clear : ', value= '.clear [amount=1]>', inline=False)
-    embed.add_field(name= '- Square : ', value= '.square <number1>', inline=True)
-    embed.add_field(name= '- Cube : ', value= '.cube <number1>', inline=False)
-    embed.add_field(name= '- Laugh : ', value= '.laugh', inline=True)
-    embed.add_field(name= '- Hello : ', value= '.hello', inline=False)
-    embed.add_field(name= '- Lol : ', value= '.lol', inline=True)
-
-
+    embed.add_field(name= '- Hi/Lol/Laugh : ', value= '```\n.hi/lol/laugh```', inline=False)
+    embed.add_field(name= '- Add : ', value= '```\n.add <number1> <number2>```', inline=False)
+    embed.add_field(name= '- Differnce : ', value= '```\n.diff <number1> <number2>```', inline=True)
+    embed.add_field(name= '- Clear Chat : ', value= '```\n.clear [amount=1]>```', inline=False)
+    embed.add_field(name= '- Square/Cube : ', value= '```\n.square/cube <number>```', inline=True)
+    embed.add_field(name= '- Wallpapers : ', value= '```\n.wp <keyword>```', inline=True)
+    embed.add_field(name= '- Meme : ', value= '```\n.meme <keyword>```', inline=False)
+    embed.add_field(name= '- Gif : ', value= '```\n.gif <keyword>```', inline=True)
+    embed.add_field(name= '- Server Info : ', value= '```\n.server```', inline=True)
+    embed.add_field(name= '- Jokes : ', value= '```\n.joke```', inline=True)
+    embed.add_field(name= '- Bot Commands: ', value= '```\n.bc```', inline=True)
     await ctx.send(embed=embed)
 
 #new help(embed  dm)
@@ -122,27 +121,26 @@ async def botcommands(ctx):
 async def help(ctx):
     author = ctx.message.author
 
-    embed = discord.Embed(
-        colour = discord.Colour.green(),
-        timestamp=datetime.datetime.utcfromtimestamp(1611660157)
-
+    embed = discord.Embed(title = 'Help',
+        description = '```\nPrefix : .```',
+        colour = discord.Colour.red()
     )
-    
-    
     embed.set_footer(text='by Luffyguy')
     embed.set_image(url='https://media.giphy.com/media/8aSSX6v0OwcDsHYnZ7/giphy.gif')
     embed.set_thumbnail(url='https://media.giphy.com/media/oaqHoQWu1Bk9FB5wsv/giphy.gif')
-    embed.set_author(name= "Help",
+    embed.set_author(name= "Help Commands",
     icon_url='https://imgur.com/f1nKCsD.png')
-    embed.add_field(name= '- Add : ', value= '.add <number1> <number2>', inline=False)
-    embed.add_field(name= '- Differnce : ', value= '.diff <number1> <number2>', inline=True)
-    embed.add_field(name= '- Clear : ', value= '.clear [amount=1]>', inline=False)
-    embed.add_field(name= '- Square : ', value= '.square <number1>', inline=True)
-    embed.add_field(name= '- Cube : ', value= '.cube <number1>', inline=False)
-    embed.add_field(name= '- Laugh : ', value= '.laugh', inline=True)
-    embed.add_field(name= '- Hello : ', value= '.hello', inline=False)
-    embed.add_field(name= '- Lol : ', value= '.lol', inline=True)
-    
+    embed.add_field(name= '- Hi/Lol/Laugh : ', value= '```\n.hi/lol/laugh```', inline=False)
+    embed.add_field(name= '- Add : ', value= '```\n.add <number1> <number2>```', inline=False)
+    embed.add_field(name= '- Differnce : ', value= '```\n.diff <number1> <number2>```', inline=True)
+    embed.add_field(name= '- Clear Chat : ', value= '```\n.clear [amount=1]>```', inline=False)
+    embed.add_field(name= '- Square/Cube : ', value= '```\n.square/cube <number>```', inline=True)
+    embed.add_field(name= '- Wallpapers : ', value= '```\n.wp <keyword>```', inline=True)
+    embed.add_field(name= '- Meme : ', value= '```\n.meme <keyword>```', inline=False)
+    embed.add_field(name= '- Gif : ', value= '```\n.gif <keyword>```', inline=True)
+    embed.add_field(name= '- Server Info : ', value= '```\n.server```', inline=True)
+    embed.add_field(name= '- Jokes : ', value= '```\n.joke```', inline=True)
+    embed.add_field(name= '- Bot Commands: ', value= '```\n.bc```', inline=True)
     await ctx.message.author.send(embed=embed)
 
 #server info
@@ -159,8 +157,7 @@ async def server(ctx):
     icon = str(ctx.guild.icon_url)
 
     embed = discord.Embed(
-        title=name + " Server Information",
-        description=description,
+        title = name + " Server Information",
         color=discord.Color.blue()
     )
     embed.set_thumbnail(url=icon)
@@ -168,7 +165,6 @@ async def server(ctx):
     embed.add_field(name="Server ID", value=id, inline=True)
     embed.add_field(name="Region", value=region, inline=True)
     embed.add_field(name="Member Count", value=memberCount, inline=True)
-
     await ctx.send(embed=embed)
 
 #reddit memes
@@ -195,13 +191,11 @@ async def meme(ctx,subred = 'memes'):
     
     #channel = client.get_channel(778661570980741160)
     #await channel.send(embed = em)
-
     await ctx.send(embed = em)
 
 #jokes
 @client.command()
 async def joke(ctx):
-
     await ctx.send(pyjokes.get_joke())
 
 #welcome message
@@ -211,7 +205,7 @@ async def on_member_join(member):
     channel = guild.get_channel(778645688929615902)
 
     embed = discord.Embed(
-        title = 'Welcome',
+        title = "**Welcome**",
         description = (f'Welcome to the {guild.name } server , {member.mention}!:partying_face: \n You are the {len(list(member.guild.members))} member ! '),
         colour = discord.Colour.green(),
         timestamp=datetime.datetime.utcfromtimestamp(1611660157)
@@ -222,7 +216,6 @@ async def on_member_join(member):
     embed.set_thumbnail(url=f'{member.avatar_url}')
     embed.set_author(name= "HellHole",
     icon_url=f'{member.guild.icon_url}')
-    
     await channel.send(embed=embed)
     await member.send(embed=embed)
    
