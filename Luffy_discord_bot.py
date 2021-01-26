@@ -6,10 +6,14 @@ import hostbot
 from hostbot import keep_alive
 from itertools import cycle
 from discord.ext import commands, tasks
+<<<<<<< HEAD
 from dotenv import load_dotenv
 
 load_dotenv()
 TOKEN=os.getenv('DISCORD_TOKEN')
+=======
+import pyjokes
+>>>>>>> 53ad7b8902707d099809a5336d7f6a469addef57
 
 #used prefix
 client = commands.Bot(command_prefix=".")
@@ -186,8 +190,16 @@ async def meme(ctx,subred = 'memes'):
     em = discord.Embed(title = name, color=discord.Colour.green())
     em.set_image(url = url)
     
-    channel = client.get_channel(778661570980741160)
-    await channel.send(embed = em)
+    #channel = client.get_channel(778661570980741160)
+    #await channel.send(embed = em)
+
+    await ctx.send(embed = em)
+
+#jokes
+@client.command()
+async def joke(ctx):
+
+    await ctx.send(pyjokes.get_joke())
 
 keep_alive()
 
