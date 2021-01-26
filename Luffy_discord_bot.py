@@ -6,7 +6,14 @@ import hostbot
 from hostbot import keep_alive
 from itertools import cycle
 from discord.ext import commands, tasks
+<<<<<<< HEAD
+from dotenv import load_dotenv
+
+load_dotenv()
+TOKEN=os.getenv('DISCORD_TOKEN')
+=======
 import pyjokes
+>>>>>>> 53ad7b8902707d099809a5336d7f6a469addef57
 
 #used prefix
 client = commands.Bot(command_prefix=".")
@@ -197,4 +204,5 @@ async def joke(ctx):
 keep_alive()
 
 #put your token here
-client.run("Your token")
+
+client.run(TOKEN)
