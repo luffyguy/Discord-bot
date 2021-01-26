@@ -163,7 +163,7 @@ async def server(ctx):
 
 #reddit memes
 
-reddit = praw.Reddit(client_id = "rp16UQQI7E6Qkw",client_secret = "m78JwvMdyphmvEyhueITWMy-az_B3Q",username = "your username",password = "your password",user_agent = "Luffybot")
+reddit = praw.Reddit(client_id = "_xC37StY7xVaAg",client_secret = "JB234Ne6j693SXd3LJYuJLbtX4CraA",username = "Luffy-bot",password = "8383028152",user_agent = "Luffybot")
 
 @client.command(pass_context=True)
 async def meme(ctx,subred = 'memes'):
