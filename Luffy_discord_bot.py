@@ -7,7 +7,6 @@ from hostbot import keep_alive
 from itertools import cycle
 from discord.ext import commands, tasks
 from dotenv import load_dotenv
-from discord.utils import get
 import requests
 import math
 import random
