@@ -12,6 +12,9 @@ import math
 import random
 import pyjokes
 import datetime
+from imgurpython import ImgurClient
+import configparser
+
 
 load_dotenv()
 TOKEN=os.getenv('DISCORD_TOKEN')
@@ -269,7 +272,45 @@ async def gif(ctx,keyword='code'):
             json1=response.json()
             index=math.floor(random.random() * len(json1['results']))
             await ctx.channel.send(json1['results'][index]["url"])   
-                   
+
+@client.command()
+async def nsfw(ctx,subred = 'NSFW_Wallpapers'):
+
+    subreddit = reddit.subreddit(subred)
+    all_subs =[]
+    
+    top = subreddit.top(limit = 50)
+    for submission in top:
+        all_subs.append(submission)
+
+    random_sub =random.choice(all_subs)
+
+    name = random_sub.title
+    url = random_sub.url
+
+    em = discord.Embed(title = name, color=discord.Colour.green())
+    em.set_image(url = url)
+    
+    channel = client.get_channel(803603760953294889)
+    await channel.send(url)
+
+#fetch images from imgur
+@client.command()
+async def img(ctx,keyword='anime'):
+    config = configparser.ConfigParser()
+    config.read('auth.ini')
+
+    client_id = config.get('credentials', 'client_id')
+    client_secret = config.get('credentials', 'client_secret')
+
+    client = ImgurClient(client_id, client_secret)
+
+    # Extracts the items (images) on the front page of imgur.
+    items = client.gallery_search(f'{keyword}', advanced=None, sort='time', window='all', page=0)
+    n=math.floor(random.random()*len(items))
+    await ctx.channel.send(items[n].link+'.jpg')
+
+
 #welcome message
 @client.event
 async def on_member_join(member):
@@ -290,6 +331,7 @@ async def on_member_join(member):
     icon_url=f'{member.guild.icon_url}')
     await channel.send(embed=embed)
     await member.send(embed=embed)
+   
 
 keep_alive()
 
