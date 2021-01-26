@@ -38,10 +38,17 @@ async def on_ready():
 async def change_status():
     await client.change_presence(activity=discord.Game(next(status)))
 
+#-----general responses-----
+
 #says hi
 @client.command()
 async def hi(ctx):
     await ctx.send("Hello")
+
+#creep
+@client.command()
+async def porn(ctx):
+    await ctx.send('```\nLook for it yourself!```')
 
 #just laughs
 @client.command()
@@ -283,7 +290,7 @@ async def on_member_join(member):
     icon_url=f'{member.guild.icon_url}')
     await channel.send(embed=embed)
     await member.send(embed=embed)
-   
+
 keep_alive()
 
 client.run(TOKEN)
