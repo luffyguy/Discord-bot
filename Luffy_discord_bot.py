@@ -6,6 +6,10 @@ import hostbot
 from hostbot import keep_alive
 from itertools import cycle
 from discord.ext import commands, tasks
+from dotenv import load_dotenv
+
+load_dotenv()
+TOKEN=os.getenv('DISCORD_TOKEN')
 
 #used prefix
 client = commands.Bot(command_prefix=".")
@@ -188,4 +192,5 @@ async def meme(ctx,subred = 'memes'):
 keep_alive()
 
 #put your token here
-client.run("Your token")
+
+client.run(TOKEN)
