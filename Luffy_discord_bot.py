@@ -207,6 +207,7 @@ async def joke(ctx):
     
     await ctx.send(pyjokes.get_joke())  
 
+#fetch wallpapers from wallhaven.cc
 @client.command()
 async def wp(ctx,keyword='anime'):
        
@@ -225,9 +226,9 @@ async def wp(ctx,keyword='anime'):
             await channel.send(json1['data'][index]["path"])
             #await ctx.send(json1['data'][index]["path"])
 
+#fetch nsfw wallpapers from wallhaven.cc
 @client.command()
-async def sx(ctx,keyword='nude'):
-       
+async def sx(ctx,keyword='nude'):       
         response = requests.get('https://wallhaven.cc/api/v1/search?q='+keyword +'&purity=111&apikey='+os.getenv('WALL_API'))
         json1=response.json()
         print(json1)
@@ -283,8 +284,5 @@ async def on_member_join(member):
    
 
 keep_alive()
-
-
-#put your token here
 
 client.run(TOKEN)
