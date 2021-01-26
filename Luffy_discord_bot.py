@@ -6,6 +6,7 @@ import hostbot
 from hostbot import keep_alive
 from itertools import cycle
 from discord.ext import commands, tasks
+import pyjokes
 
 #used prefix
 client = commands.Bot(command_prefix=".")
@@ -182,8 +183,16 @@ async def meme(ctx,subred = 'memes'):
     em = discord.Embed(title = name, color=discord.Colour.green())
     em.set_image(url = url)
     
-    channel = client.get_channel(778661570980741160)
-    await channel.send(embed = em)
+    #channel = client.get_channel(778661570980741160)
+    #await channel.send(embed = em)
+
+    await ctx.send(embed = em)
+
+#jokes
+@client.command()
+async def joke(ctx):
+
+    await ctx.send(pyjokes.get_joke())
 
 keep_alive()
 
