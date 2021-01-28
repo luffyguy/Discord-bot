@@ -94,7 +94,7 @@ async def add(ctx,number1,number2):
 async def diff(ctx,number1,number2):
     subtracted_number = int(number1) - int(number2)
     await ctx.send("The differnce of " + str(number1) + " and " + str(number2) + " is " + str(subtracted_number))
-
+#----------------------------------------------
 #to clear chat
 @client.command()
 @commands.has_permissions(manage_messages=True)
@@ -125,7 +125,7 @@ async def help(ctx):
     embed.add_field(name= '- Gif : ', value= '```\n.gif <keyword>```', inline=True)
     embed.add_field(name= '- Server Info : ', value= '```\n.server```', inline=True)
     embed.add_field(name= '- Jokes : ', value= '```\n.joke```', inline=True)
-    embed.add_field(name= '- Bot Commands: ', value= '```\n.bc```', inline=True)
+    embed.add_field(name= '- Bot Commands: ', value= '```\n.bc  (you will get a dm)```', inline=True)
     await ctx.send(embed=embed)
 
 #Commands(embed  dm)
@@ -274,6 +274,7 @@ async def gif(ctx,keyword='code'):
             index=math.floor(random.random() * len(json1['results']))
             await ctx.channel.send(json1['results'][index]["url"])   
 
+#technical Stuff
 @client.command()
 async def rd(ctx,subred = 'NSFW_Wallpapers',timeout: int=1):
         subreddit = reddit.subreddit(subred)
