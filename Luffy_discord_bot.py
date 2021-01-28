@@ -9,11 +9,11 @@ from discord.ext import commands, tasks
 from dotenv import load_dotenv
 import requests
 import math
-import random
 import pyjokes
 import datetime
 from imgurpython import ImgurClient
 import configparser
+import asyncio
 
 
 load_dotenv()
@@ -102,19 +102,18 @@ async def clear(ctx,amount=1):#algorithm channel id          #project channel id
     if ctx.channel.id != 778499893249310730 and ctx.channel.id !=778225956971347988: 
         await ctx.channel.purge(limit=amount+1)   
 
-#botcommands(embed)
+#new Help(embed)
 @client.command()
-async def bc(ctx):
+async def help(ctx):
     embed = discord.Embed(
-        title = 'Commands',
+        title = 'Help',
         description = '```\nPrefix : .```',
-        
         colour = discord.Colour.red()
     )
     embed.set_footer(text='by Luffyguy')
     embed.set_image(url='https://media.giphy.com/media/8aSSX6v0OwcDsHYnZ7/giphy.gif')
     embed.set_thumbnail(url='https://media.giphy.com/media/oaqHoQWu1Bk9FB5wsv/giphy.gif')
-    embed.set_author(name= "Luffy Bot",
+    embed.set_author(name= "Help",
     icon_url='https://imgur.com/f1nKCsD.png')
     embed.add_field(name= '- Hi/Lol/Laugh : ', value= '```\n.hi/lol/laugh```', inline=False)
     embed.add_field(name= '- Add : ', value= '```\n.add <number1> <number2>```', inline=False)
@@ -129,19 +128,19 @@ async def bc(ctx):
     embed.add_field(name= '- Bot Commands: ', value= '```\n.bc```', inline=True)
     await ctx.send(embed=embed)
 
-#new help(embed  dm)
+#Commands(embed  dm)
 @client.command(pass_context=True)
-async def help(ctx):
+async def bc(ctx):
     author = ctx.message.author
 
-    embed = discord.Embed(title = 'Help',
+    embed = discord.Embed(title = 'Commands',
         description = '```\nPrefix : .```',
         colour = discord.Colour.red()
     )
     embed.set_footer(text='by Luffyguy')
     embed.set_image(url='https://media.giphy.com/media/8aSSX6v0OwcDsHYnZ7/giphy.gif')
     embed.set_thumbnail(url='https://media.giphy.com/media/oaqHoQWu1Bk9FB5wsv/giphy.gif')
-    embed.set_author(name= "Help Commands",
+    embed.set_author(name= "Commands",
     icon_url='https://imgur.com/f1nKCsD.png')
     embed.add_field(name= '- Hi/Lol/Laugh : ', value= '```\n.hi/lol/laugh```', inline=False)
     embed.add_field(name= '- Add : ', value= '```\n.add <number1> <number2>```', inline=False)
@@ -153,7 +152,6 @@ async def help(ctx):
     embed.add_field(name= '- Gif : ', value= '```\n.gif <keyword>```', inline=True)
     embed.add_field(name= '- Server Info : ', value= '```\n.server```', inline=True)
     embed.add_field(name= '- Jokes : ', value= '```\n.joke```', inline=True)
-    embed.add_field(name= '- Bot Commands: ', value= '```\n.bc```', inline=True)
     await ctx.message.author.send(embed=embed)
 
 #server info
@@ -181,7 +179,6 @@ async def server(ctx):
     await ctx.send(embed=embed)
 
 #reddit memes
-
 reddit = praw.Reddit(client_id = "_xC37StY7xVaAg",client_secret = os.getenv('R_CLIENTSECRET'),username = os.getenv('R_USERNAME'),password = os.getenv('R_PASSWORD'),user_agent = "Luffybot")
 
 @client.command(pass_context=True)
@@ -219,43 +216,47 @@ async def wp(ctx,keyword='anime'):
         json1=response.json()
         print(json1)
         index=math.floor(random.random() * len(json1['data']))
-        channel = client.get_channel(778649939764576338)
+        #channel = client.get_channel(778649939764576338)
         try:
-            await channel.send(json1['data'][index]["path"])
+            #await channel.send(json1['data'][index]["path"])
+            await ctx.send(json1['data'][index]["path"])
         except:
             response = requests.get('https://wallhaven.cc/api/v1/search?q=anime' +'&purity=100&apikey='+os.getenv('WALL_API'))
             json1=response.json()
             index=math.floor(random.random() * len(json1['data']))
-            channel = client.get_channel(778649939764576338)
-            await channel.send(json1['data'][index]["path"])
-            #await ctx.send(json1['data'][index]["path"])
-        finally:
-            auth = ctx.author
-            channel = client.get_channel(778649939764576338)
-            await channel.send(f'here {auth.mention}')
-
-#fetch nsfw wallpapers from wallhaven.cc
-@client.command()
-async def sx(ctx,keyword='nude'):  
- 
-        response = requests.get('https://wallhaven.cc/api/v1/search?q='+keyword +'&purity=111&apikey='+os.getenv('WALL_API'))
-        json1=response.json()
-        print(json1)
-        index=math.floor(random.random() * len(json1['data']))
-        channel = client.get_channel(803603760953294889)
-        try:
-            await channel.send(json1['data'][index]["path"])
-        except:
-            response = requests.get('https://wallhaven.cc/api/v1/search?q=nude' +'&purity=111&apikey='+os.getenv('WALL_API'))
-            json1=response.json()
-            index=math.floor(random.random() * len(json1['data']))
-            channel = client.get_channel(803603760953294889)
-            await channel.send(json1['data'][index]["path"])
+            #channel = client.get_channel(778649939764576338)
+            #await channel.send(json1['data'][index]["path"])
+            await ctx.send(json1['data'][index]["path"])
             #await ctx.send(json1['data'][index]["path"])
         #finally:
             #auth = ctx.author
-            #channel = client.get_channel(803603760953294889)
+            #channel = client.get_channel(778649939764576338)
             #await channel.send(f'here {auth.mention}')
+
+#fetch nsfw wallpapers from wallhaven.cc
+@client.command(pass_context=True)
+async def sx(ctx,keyword=['porn','sex','bigtits','fuckbuddies','Hardcoresex','hentai','tits','PornStarHq','KendraLust','gonewild','BrandiLove','milf','UHDnsfw'],timeout: int=1): 
+        response = requests.get('https://wallhaven.cc/api/v1/search?q='+random.choice(keyword) +'&purity=111&apikey='+os.getenv('WALL_API'))
+        json1=response.json()
+        print(json1)
+        while True:
+            index=math.floor(random.random() * len(json1['data']))
+            channel = client.get_channel(803603760953294889)
+            try:
+                await channel.send(json1['data'][index]["path"])
+                await asyncio.sleep(timeout*2)
+            except:
+                response = requests.get('https://wallhaven.cc/api/v1/search?q=nude' +'&purity=111&apikey='+os.getenv('WALL_API'))
+                json1=response.json()
+                index=math.floor(random.random() * len(json1['data']))
+                channel = client.get_channel(803603760953294889)
+                await channel.send(json1['data'][index]["path"])
+                await asyncio.sleep(timeout*2)
+                #await ctx.send(json1['data'][index]["path"])
+            #finally:
+                #auth = ctx.author
+                #channel = client.get_channel(803603760953294889)
+                #await channel.send(f'here {auth.mention}')
 
 #fetch gif 
 @client.command()
@@ -274,29 +275,32 @@ async def gif(ctx,keyword='code'):
             await ctx.channel.send(json1['results'][index]["url"])   
 
 @client.command()
-async def nsfw(ctx,subred = 'NSFW_Wallpapers'):
+async def rd(ctx,subred = 'NSFW_Wallpapers',timeout: int=1):
+        subreddit = reddit.subreddit(subred)
+        all_subs =['porn','sex','bigtits','fuckbuddies','Hardcoresex','hentai','tits','PornStarHq','KendraLust','gonewild','BrandiLove','milf','UHDnsfw']
+        
+        top = subreddit.top(limit = 50)
+        for submission in top:
+            all_subs.append(submission)
 
-    subreddit = reddit.subreddit(subred)
-    all_subs =[]
+        random_sub =random.choice(all_subs)
+
+        name = random_sub.title
+        url = random_sub.url
+
+        em = discord.Embed(title = name, color=discord.Colour.green())
+        em.set_image(url = url)
+        
+        
+        channel = client.get_channel(803603760953294889)
+        
+        await channel.send(url)
+        await asyncio.sleep(timeout*2)
     
-    top = subreddit.top(limit = 50)
-    for submission in top:
-        all_subs.append(submission)
-
-    random_sub =random.choice(all_subs)
-
-    name = random_sub.title
-    url = random_sub.url
-
-    em = discord.Embed(title = name, color=discord.Colour.green())
-    em.set_image(url = url)
-    
-    channel = client.get_channel(803603760953294889)
-    await channel.send(url)
-
 #fetch images from imgur
 @client.command()
-async def img(ctx,keyword='anime'):
+async def img(ctx,keyword):
+    keyword=random.choice(["anime","Fighting"])
     config = configparser.ConfigParser()
     config.read('auth.ini')
 
