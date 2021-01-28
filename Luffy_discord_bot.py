@@ -235,10 +235,12 @@ async def wp(ctx,keyword='anime'):
 
 #fetch nsfw wallpapers from wallhaven.cc
 @client.command(pass_context=True)
-async def sx(ctx,keyword=['porn','sex','bigtits','fuckbuddies','Hardcoresex','hentai','tits','PornStarHq','KendraLust','gonewild','BrandiLove','milf','UHDnsfw'],timeout: int=1): 
+async def sx(ctx,keyword='porn'): 
+        timeout=1
         response = requests.get('https://wallhaven.cc/api/v1/search?q='+random.choice(keyword) +'&purity=111&apikey='+os.getenv('WALL_API'))
         json1=response.json()
-        print(json1)
+        print(len(json1['data']))
+
         while True:
             index=math.floor(random.random() * len(json1['data']))
             channel = client.get_channel(803603760953294889)
@@ -276,16 +278,26 @@ async def gif(ctx,keyword='code'):
 
 #technical Stuff
 @client.command()
-async def rd(ctx,subred = 'NSFW_Wallpapers',timeout: int=1):
-        subreddit = reddit.subreddit(subred)
-        all_subs =['porn','sex','bigtits','fuckbuddies','Hardcoresex','hentai','tits','PornStarHq','KendraLust','gonewild','BrandiLove','milf','UHDnsfw']
-        
-        top = subreddit.top(limit = 50)
-        for submission in top:
-            all_subs.append(submission)
+async def rd(ctx,subred = 'NSFW_Wallpapers'):
+    c=0
+    while c!=60:    
+        timeout=1
+        subreds=['boobgifs','NSFW_Wallpapers','tit','DaniDaniels','MiaMalkova','Hardcoresex','lanarhoades','PornStarHq','KendraLust','gonewild','BrandiLove','milf','UHDnsfw']
+        all_subs =[]
+        index=math.floor(random.random()*len(subreds))
+        subreddit = reddit.subreddit(subreds[index])
+        print(subreds[index])
+        top = subreddit.top(limit = 25)
+        hot=subreddit.hot(limit = 50)
+        try:
+            for submission in top:
+                all_subs.append(submission)
+        except:
+            for submission in hot:
+                all_subs.append(submission)
 
         random_sub =random.choice(all_subs)
-
+        
         name = random_sub.title
         url = random_sub.url
 
@@ -296,7 +308,8 @@ async def rd(ctx,subred = 'NSFW_Wallpapers',timeout: int=1):
         channel = client.get_channel(803603760953294889)
         
         await channel.send(url)
-        await asyncio.sleep(timeout*2)
+        await asyncio.sleep(timeout*60)
+        c=c+1
     
 #fetch images from imgur
 @client.command()
