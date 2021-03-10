@@ -235,7 +235,7 @@ async def wp(ctx,keyword='anime'):
 
 #fetch nsfw wallpapers from wallhaven.cc
 @client.command(pass_context=True)
-async def sx(ctx,keyword='porn'): 
+async def sx(ctx,keyword='nsfw'): 
         timeout=1
         response = requests.get('https://wallhaven.cc/api/v1/search?q='+random.choice(keyword) +'&purity=111&apikey='+os.getenv('WALL_API'))
         json1=response.json()
@@ -282,7 +282,7 @@ async def rd(ctx,subred = 'NSFW_Wallpapers'):
     c=0
     while c!=60:    
         timeout=1
-        subreds=['boobgifs','NSFW_Wallpapers','tit','DaniDaniels','MiaMalkova','Hardcoresex','lanarhoades','PornStarHq','KendraLust','gonewild','BrandiLove','milf','UHDnsfw']
+        subreds=['wallpapers']
         all_subs =[]
         index=math.floor(random.random()*len(subreds))
         subreddit = reddit.subreddit(subreds[index])
